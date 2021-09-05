@@ -32,6 +32,11 @@ export class AppComponent implements OnInit {
     });
 
 
+    //observable, calls whenever the form is changed or a control is changed
+    // this.signUpForm.valueChanges.subscribe((value) => console.log(value));
+
+    this.signUpForm.statusChanges.subscribe((value) => console.log(value));
+
 
   }
 
