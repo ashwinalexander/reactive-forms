@@ -1,3 +1,4 @@
+import { normalizeGenFileSuffix } from '@angular/compiler/src/aot/util';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -8,6 +9,8 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   genders = ['male', 'female'];
+  forbiddenUsernames = ['Chris', 'Anna'];
+
 
   signUpForm: FormGroup;
 
@@ -18,7 +21,7 @@ export class AppComponent implements OnInit {
     //controls are key value pairs
     this.signUpForm = new FormGroup({
       'userData': new FormGroup({
-        'username': new FormControl(null, Validators.required),
+        'username': new FormControl(null, [Validators.required, this.forbiddenNames.bind(this)]),
         'email': new FormControl("ashwin@hauskey.com", [Validators.required, Validators.email])
       })
       ,
@@ -40,6 +43,15 @@ export class AppComponent implements OnInit {
     console.log(this.signUpForm);
   }
 
+
+  //custom validator
+  forbiddenNames(control: FormControl): { [s: string]: boolean } {
+    if (this.forbiddenUsernames.indexOf(control.value) !== -1) {
+      return { 'nameIsForbidden': true };
+    }
+
+    return null;
+  }
 
 
 
